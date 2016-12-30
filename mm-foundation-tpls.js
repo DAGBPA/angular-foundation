@@ -483,7 +483,7 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
               parent.removeClass('hover');
             }
           };
-          $document.on('click', closeMenu);
+          $document.on('click touchend', closeMenu);
         }
       };
 
