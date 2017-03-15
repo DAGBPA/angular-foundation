@@ -447,10 +447,9 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
           };
 
           if (controller.small()) {
-            css.left = Math.max((parentOffset.width - dropdownWidth) / 2, 8) + 'px';
+            //css.left = Math.max((parentOffset.width - dropdownWidth) / 2, 8) + 'px';
             css.position = 'absolute';
             css.width = '95%';
-            css['max-width'] = 'none';
           }
           else {
             var left = Math.round(offset.left - parentOffset.left);
@@ -459,9 +458,8 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
                 left = rightThreshold;
                 dropdown.removeClass('left').addClass('right');
             }
-            css.left = left + 'px';
+            //css.left = left + 'px';
             css.position = null;
-            css['max-width'] = null;
           }
 
           dropdown.css(css);
@@ -1124,17 +1122,17 @@ angular.module('mm.foundation.modal', ['mm.foundation.transition'])
       };
 
       $modalStack.close = function (modalInstance, result) {
-        var modalWindow = openedWindows.get(modalInstance).value;
+        var modalWindow = openedWindows.get(modalInstance);
         if (modalWindow) {
-          modalWindow.deferred.resolve(result);
+	      modalWindow.value.deferred.resolve(result);
           removeModalWindow(modalInstance);
         }
       };
 
       $modalStack.dismiss = function (modalInstance, reason) {
-        var modalWindow = openedWindows.get(modalInstance).value;
+        var modalWindow = openedWindows.get(modalInstance);
         if (modalWindow) {
-          modalWindow.deferred.reject(reason);
+          modalWindow.value.deferred.reject(reason);
           removeModalWindow(modalInstance);
         }
       };
