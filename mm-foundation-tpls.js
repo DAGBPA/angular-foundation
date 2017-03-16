@@ -421,6 +421,7 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
     link: function(scope, element, attrs, controller) {
       var parent = element.parent(),
           dropdown = angular.element($document[0].querySelector(attrs.dropdownToggle));
+     if (!dropdown.length) return;
 
       var parentHasDropdown = function() {
         return parent.hasClass('has-dropdown');
@@ -440,10 +441,12 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
         if (!elementWasOpen && !element.hasClass('disabled') && !element.prop('disabled')) {
           dropdown.css('display', 'block'); // We display the element so that offsetParent is populated
           var offset = $position.offset(element);
-          var parentOffset = $position.offset(angular.element(dropdown[0].offsetParent));
+          var parent = angular.element(dropdown[0].offsetParent);
+          var parentOffset = $position.offset(parent);
           var dropdownWidth = dropdown.prop('offsetWidth');
+          var up = dropdown.hasClass('drop-up');
           var css = {
-            top: offset.top - parentOffset.top - dropdown.prop('offsetHeight') + 'px'
+            top: offset.top + (up ? -1 : 1) * parentOffset.top - dropdown.prop('offsetHeight')  + (up ? 0 : 1) * offset.height + 'px'
           };
 
           if (controller.small()) {
