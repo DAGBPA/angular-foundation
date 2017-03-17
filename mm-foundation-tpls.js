@@ -446,7 +446,7 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
           var dropdownWidth = dropdown.prop('offsetWidth');
           var up = dropdown.hasClass('drop-up');
           var css = {
-            top: offset.top + (up ? -1 : 1) * parentOffset.top - dropdown.prop('offsetHeight')  + (up ? 0 : 1) * offset.height + 'px'
+            top: offset.top + (up ? -1 : 1) * parentOffset.top - (up ? 1 : 0) * dropdown.prop('offsetHeight') + (up ? 0 : 1) * offset.height + 'px'
           };
 
           if (controller.small()) {
