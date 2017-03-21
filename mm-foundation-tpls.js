@@ -444,29 +444,41 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
           var parent = angular.element(dropdown[0].offsetParent);
           var parentOffset = $position.offset(parent);
           var dropdownWidth = dropdown.prop('offsetWidth');
-          var up = dropdown.hasClass('drop-up');
-          var css = {
-            top: offset.top + (up ? -1 : 1) * parentOffset.top - (up ? 1 : 0) * dropdown.prop('offsetHeight') + (up ? 0 : 1) * offset.height + 'px'
-          };
-
-          if (controller.small()) {
-            //css.left = Math.max((parentOffset.width - dropdownWidth) / 2, 8) + 'px';
-            css.position = 'absolute';
-            css.width = '95%';
-          }
-          else {
-            var left = Math.round(offset.left - parentOffset.left);
-            var rightThreshold = $window.innerWidth - dropdownWidth - 8;
-            if (left > rightThreshold) {
-                left = rightThreshold;
-                dropdown.removeClass('left').addClass('right');
-            }
-            //css.left = left + 'px';
-            css.position = null;
-          }
-
+          var dropdownHeight = dropdown.prop('offsetWidth');
+          var force_up = false;
+          var getPosition = function() {
+		       var up = force_up || dropdown.hasClass('drop-up');
+		       var css = {
+		            top: offset.top + (up ? -1 : 1) * parentOffset.top - (up ? 1 : 0) * dropdown.prop('offsetHeight') + (up ? 0 : 1) * offset.height + 'px'
+		          };
+		       
+	          if (controller.small()) {
+	            //css.left = Math.max((parentOffset.width - dropdownWidth) / 2, 8) + 'px';
+	            css.position = 'absolute';
+	            css.width = '95%';
+	          }
+	          else {
+	            var left = Math.round(offset.left - parentOffset.left);
+	            var rightThreshold = $window.innerWidth - dropdownWidth - 8;
+	            if (left > rightThreshold) {
+	                left = rightThreshold;
+	                dropdown.removeClass('left').addClass('right');
+	            }
+	            //css.left = left + 'px';
+	            css.position = null;
+	          }
+	          return css;
+      	   };
+      	  var css = getPosition();
           dropdown.css(css);
           element.addClass('expanded');
+
+          if (dropdown[0].getBoundingClientRect().top + dropdownHeight > document.body.offsetHeight) {
+          	force_up = true;
+          	dropdown.addClass('drop-top');
+          	css = getPosition();
+          	dropdown.css(css);
+          }
 
           if (parentHasDropdown()) {
             parent.addClass('hover');
@@ -478,6 +490,7 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
             $document.off('click', closeMenu);
             dropdown.css('display', 'none');
             element.removeClass('expanded');
+            if (force_up) dropdown.removeClass('drop-top');
             closeMenu = angular.noop;
             openElement = null;
             if (parent.hasClass('hover')) {
