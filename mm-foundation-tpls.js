@@ -487,6 +487,13 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
           openElement = element;
 
           closeMenu = function (event) {
+          	if (event) {
+	          	var target = angular.element(event.target);
+	          	while (target[0] != $document[0]) {
+	          		if (target.hasClass('switch')) return;
+	          		target = target.parent();
+	          	}
+          	}
             $document.off('click', closeMenu);
             dropdown.css('display', 'none');
             element.removeClass('expanded');
@@ -501,11 +508,11 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
         }
       };
 
-      if (dropdown) {
+      /*if (dropdown) {
         dropdown.css('display', 'none');
-      }
+      }*/
 
-      scope.$watch('$location.path', function() { closeMenu(); });
+      //scope.$watch('$location.path', function() { closeMenu(); });
 
       element.on('click', onClick);
       element.on('$destroy', function() {
