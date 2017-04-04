@@ -448,9 +448,12 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
           var force_up = false;
           var getPosition = function() {
 		       var up = force_up || dropdown.hasClass('drop-up');
-		       var css = {
-		            top: offset.top + (up ? -1 : 1) * parentOffset.top - (up ? 1 : 0) * dropdown.prop('offsetHeight') + (up ? 0 : 1) * offset.height + 'px'
-		          };
+		       //var css = {
+		       //     top: offset.top + (up ? -1 : 1) * parentOffset.top - (up ? 1 : 0) * dropdown.prop('offsetHeight') + (up ? 0 : 1) * offset.height + 'px'
+		       //   };
+			  var css = up
+			  	? {top: offset.top - parentOffset.top - dropdown.prop('offsetHeight') + 'px'}
+			  	: {top: offset.top - parentOffset.top + offset.height + 'px'}
 		       
 	          if (controller.small()) {
 	            //css.left = Math.max((parentOffset.width - dropdownWidth) / 2, 8) + 'px';
