@@ -492,7 +492,7 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
           closeMenu = function (event) {
           	if (event) {
 	          	var target = angular.element(event.target);
-	          	while (target[0] != $document[0]) {
+	          	while (target.length && (target[0] != $document[0])) {
 	          		if (target.hasClass('switch')) return;
 	          		target = target.parent();
 	          	}
