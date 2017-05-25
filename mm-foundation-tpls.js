@@ -496,8 +496,10 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
 	          		if (target.hasClass('switch')) return;
 	          		target = target.parent();
 	          	}
+	          	event.stopImmediatePropagation();
+	          	event.preventDefault();
           	}
-            $document.off('click', closeMenu);
+            $document.off('click touchend', closeMenu);
             dropdown.css('display', 'none');
             element.removeClass('expanded');
             if (force_up) dropdown.removeClass('drop-top');
