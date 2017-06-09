@@ -2547,7 +2547,7 @@ angular.module("mm.foundation.topbar", ['mm.foundation.mediaQueries'])
       replace: true,
       templateUrl: 'template/topbar/top-bar.html',
       transclude: true,
-      controller: ['$window', '$scope', 'closest', '$timeout', function($window, $scope, closest) {
+      controller: ['$window', '$scope', 'closest', function($window, $scope, closest) {
         $scope.settings = {};
         $scope.settings.stickyClass = $scope.stickyClass || 'sticky';
         $scope.settings.backText = $scope.backText || 'Back';
