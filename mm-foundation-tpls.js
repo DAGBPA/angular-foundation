@@ -1074,7 +1074,9 @@ angular.module('mm.foundation.modal', ['mm.foundation.transition'])
           domEl.bind(transitionEndEventName, function () {
             $timeout.cancel(timeout);
             afterAnimating();
-            scope.$apply();
+	        $timeout(function() {
+	          scope.$apply();
+	        });
           });
         } else {
           // Ensure this call is async
@@ -2692,13 +2694,16 @@ angular.module("mm.foundation.topbar", ['mm.foundation.mediaQueries'])
           angular.forEach(sections, function(section) {
             angular.element(section.querySelectorAll('li.moved')).removeClass('moved');
           });
-
-          scope.$apply();
+          $timeout(function() {
+            scope.$apply();
+          });
         };
 
         var onScroll = function() {
           updateStickyPositioning();
-          scope.$apply();
+          $timeout(function() {
+            scope.$apply();
+          });
         };
 
         scope.toggle = function(on) {
