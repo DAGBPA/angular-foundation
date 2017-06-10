@@ -726,7 +726,7 @@ angular.module('mm.foundation.interchange', ['mm.foundation.mediaQueries'])
    * and update the value if necessary. The methd will also
    * trigger a `replace` event.
    */
-  .directive('interchange', ['$window', '$rootScope', 'interchangeTools', function ($window, $rootScope, interchangeTools) {
+  .directive('interchange', ['$window', '$rootScope', 'interchangeTools', '$timeout', function ($window, $rootScope, interchangeTools, $timeout) {
 
     var pictureFilePattern = /[A-Za-z0-9-_]+\.(jpg|jpeg|png|gif|bmp|tiff)\ *,/i;
 
@@ -792,7 +792,9 @@ angular.module('mm.foundation.interchange', ['mm.foundation.mediaQueries'])
               // Trigger events
               $rootScope.$emit('replace', $element, $scope);
               if (!!e) {
-                $scope.$apply();
+                $timeout(function() {
+	                $scope.$apply();  
+                });
               }
             };
 
@@ -2597,7 +2599,9 @@ angular.module("mm.foundation.topbar", ['mm.foundation.mediaQueries'])
           }
           $scope.index = 0;
           $scope.height = '';
-          $scope.$apply();
+          $timeout(function() {
+            $scope.$apply();
+          });
         };
 
         this.back = function(event) {
@@ -2631,7 +2635,9 @@ angular.module("mm.foundation.topbar", ['mm.foundation.mediaQueries'])
           $selectedLi.addClass('moved');
           $scope.height = $scope.originalHeight + outerHeight($link.parent()[0].querySelector('ul'));
           $scope.index = $scope.index + 1;
-          $scope.$apply();
+          $timeout(function() {
+            $scope.$apply();
+          });
         };
 
       }],
