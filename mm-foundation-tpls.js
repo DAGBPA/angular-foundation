@@ -448,6 +448,7 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
           var force_up = false;
           var getPosition = function() {
 		       var up = force_up || dropdown.hasClass('drop-up');
+		       var dynamic_pos = dropdown.hasClass('pos-at-cursor')
 		       //var css = {
 		       //     top: offset.top + (up ? -1 : 1) * parentOffset.top - (up ? 1 : 0) * dropdown.prop('offsetHeight') + (up ? 0 : 1) * offset.height + 'px'
 		       //   };
@@ -455,22 +456,24 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
 			  	? {top: offset.top - parentOffset.top - dropdown.prop('offsetHeight') + 'px'}
 			  	: {top: offset.top - parentOffset.top + offset.height + 'px'}
 		       
-	          if (controller.small()) {
-	            //css.left = Math.max((parentOffset.width - dropdownWidth) / 2, 8) + 'px';
+	            if (dynamic_pos) {
+	            	var left = Math.round(event.pageX - parentOffset.left - dropdownWidth) + 15;
+	            	dropdown.removeClass('left').addClass('right');
+		            if (left < 0) {
+		                left = Math.min(event.pageX - 15, parentOffset.width - dropdownWidth);
+		                dropdown.removeClass('right').addClass('left');
+		            }
+	            	css.left = left + 'px';
+	            	var top = Math.round(event.pageY - parentOffset.top) + 10;
+		            if (top + dropdownHeight > parentOffset.height) {
+		                top = Math.max(event.pageY - dropdownHeight - 10, 0);
+		                dropdown.addClass('drop-top');
+		            }
+	            	css.top = top + 'px';
+	            }
 	            css.position = 'absolute';
 	            css.width = '95%';
-	          }
-	          else {
-	            var left = Math.round(offset.left - parentOffset.left);
-	            var rightThreshold = $window.innerWidth - dropdownWidth - 8;
-	            if (left > rightThreshold) {
-	                left = rightThreshold;
-	                dropdown.removeClass('left').addClass('right');
-	            }
-	            //css.left = left + 'px';
-	            css.position = null;
-	          }
-	          return css;
+	          	return css;
       	   };
       	  var css = getPosition();
           dropdown.css(css);
