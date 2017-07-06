@@ -504,7 +504,7 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
 	          	event.stopImmediatePropagation();
 	          	event.preventDefault();
           	}
-            $document.off('click', closeMenu);
+            $document.off('click touchstart', closeMenu);
             dropdown.css('display', 'none');
             element.removeClass('expanded');
             if (force_up) dropdown.removeClass('drop-top');
@@ -514,7 +514,7 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
               parent.removeClass('hover');
             }
           };
-          $document.on('click', closeMenu);
+          $document.on('click touchstart', closeMenu);
         }
       };
 
