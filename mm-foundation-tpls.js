@@ -495,14 +495,16 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
           closeMenu = function (event) {
           	if (event) {
 	          	var target = angular.element(event.target);
+	          	var action_clicked = false;
 	          	while (target.length && (target[0] != $document[0])) {
-	          		if (target.hasClass('switch')) return;
+	          		if (target[0].localName == "a") action_clicked = true;
+	          		if (!action_clicked && target[0] == dropdown[0]) return;
 	          		target = target.parent();
 	          	}
 	          	event.stopImmediatePropagation();
 	          	event.preventDefault();
           	}
-            $document.off('click touchend', closeMenu);
+            $document.off('click', closeMenu);
             dropdown.css('display', 'none');
             element.removeClass('expanded');
             if (force_up) dropdown.removeClass('drop-top');
@@ -512,7 +514,7 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
               parent.removeClass('hover');
             }
           };
-          $document.on('click touchend', closeMenu);
+          $document.on('click', closeMenu);
         }
       };
 
