@@ -465,6 +465,7 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
 		            }
 	            	css.left = left + 'px';
 	            	var top = Math.round(event.pageY - parentOffset.top) + 10;
+	            	dropdown.removeClass('drop-top');
 		            if (top + dropdownHeight > parentOffset.height) {
 		                top = Math.max(event.pageY - dropdownHeight - 10, 0);
 		                dropdown.addClass('drop-top');
