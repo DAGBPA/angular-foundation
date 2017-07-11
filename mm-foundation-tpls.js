@@ -412,7 +412,7 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
   };
 }])
 
-.directive('dropdownToggle', ['$document', '$window', '$location', '$position', function ($document, $window, $location, $position) {
+.directive('dropdownToggle', ['$document', '$window', '$location', '$position', '$timeout', function ($document, $window, $location, $position, $timeout) {
   var openElement = null,
       closeMenu   = angular.noop;
   return {
@@ -494,26 +494,28 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
           openElement = element;
 
           closeMenu = function (event) {
-          	if (event) {
-	          	var target = angular.element(event.target);
-	          	var action_clicked = false;
-	          	while (target.length && (target[0] != $document[0])) {
-	          		if (target[0].localName == "a") action_clicked = true;
-	          		if (!action_clicked && target[0] == dropdown[0]) return;
-	          		target = target.parent();
-	          	}
-	          	event.stopImmediatePropagation();
-	          	event.preventDefault();
-          	}
-            $document.off('click touchstart', closeMenu);
-            dropdown.css('display', 'none');
-            element.removeClass('expanded');
-            if (force_up) dropdown.removeClass('drop-top');
-            closeMenu = angular.noop;
-            openElement = null;
-            if (parent.hasClass('hover')) {
-              parent.removeClass('hover');
-            }
+            $timeout(function(){
+              if (event) {
+                var target = angular.element(event.target);
+                var action_clicked = false;
+                while (target.length && (target[0] != $document[0])) {
+                  if (target[0].localName == "a") action_clicked = true;
+                  if (!action_clicked && target[0] == dropdown[0]) return;
+                  target = target.parent();
+                }
+                event.stopImmediatePropagation();
+                event.preventDefault();
+              }
+              $document.off('click touchstart', closeMenu);
+              dropdown.css('display', 'none');
+              element.removeClass('expanded');
+              if (force_up) dropdown.removeClass('drop-top');
+              closeMenu = angular.noop;
+              openElement = null;
+              if (parent.hasClass('hover')) {
+                parent.removeClass('hover');
+              }
+            }, 2);
           };
           $document.on('click touchstart', closeMenu);
         }
