@@ -464,13 +464,19 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
 		                dropdown.removeClass('right').addClass('left');
 		            }
 	            	css.left = left + 'px';
-	            	var top = Math.round(event.pageY - parentOffset.top) + 10;
+
+	            	var fontSize = window.getComputedStyle(element[0]).getPropertyValue('font-size');
+					var lineHeight = Math.floor(parseInt(fontSize.replace('px','')) * 1.5);
+					var insideLineShift = (event.pageY - offset.top) % lineHeight;
+	            	var top = Math.round(event.pageY - parentOffset.top - insideLineShift + lineHeight);
 	            	dropdown.removeClass('drop-top');
 		            if (top + dropdownHeight > parentOffset.height) {
-		                top = Math.max(event.pageY - dropdownHeight - 10, 0);
+		                top = Math.max(event.pageY - parentOffset.top - dropdownHeight - insideLineShift, 0);
 		                dropdown.addClass('drop-top');
 		            }
 	            	css.top = top + 'px';
+	            } else {
+	            	css.left = $position.offset(element).left + 'px';
 	            }
 	            css.position = 'absolute';
 	            css.width = '95%';
