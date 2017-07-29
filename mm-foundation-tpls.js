@@ -512,7 +512,7 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
                 event.stopImmediatePropagation();
                 event.preventDefault();
               }
-              $document.off('click touchstart', closeMenu);
+              $document.off('click touchend', closeMenu);
               dropdown.css('display', 'none');
               element.removeClass('expanded');
               if (force_up) dropdown.removeClass('drop-top');
@@ -523,7 +523,7 @@ angular.module('mm.foundation.dropdownToggle', [ 'mm.foundation.position', 'mm.f
               }
             }, 2);
           };
-          $document.on('click touchstart', closeMenu);
+          $document.on('click touchend', closeMenu);
         }
       };
 
