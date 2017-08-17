@@ -472,7 +472,7 @@ angular.module('mm.foundation.dropdownToggle', ['mm.foundation.position', 'mm.fo
 							dynamic_pos = dropdown.hasClass('pos-at-cursor')
 							var css = up ?
 								{
-									top: Math.max(offset.top - parentOffset.top - dropdown.prop('offsetHeight'), 0) + 'px'
+									top: offset.top - parentOffset.top - dropdown.prop('offsetHeight') + 'px'
 								} :
 								{
 									top: offset.top - parentOffset.top + offset.height + 'px'
