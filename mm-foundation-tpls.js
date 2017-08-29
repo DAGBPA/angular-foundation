@@ -513,7 +513,7 @@ angular.module('mm.foundation.dropdownToggle', ['mm.foundation.position', 'mm.fo
 						dropdown.css(css);
 						element.addClass('expanded');
 
-						if (dynamic_pos && dropdown[0].getBoundingClientRect()
+						if (dropdown[0].getBoundingClientRect()
 							.top + dropdownHeight > document.body.offsetHeight) {
 							force_up = true;
 							dropdown.addClass('drop-top');
