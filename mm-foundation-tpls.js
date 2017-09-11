@@ -464,7 +464,7 @@ angular.module('mm.foundation.dropdownToggle', ['mm.foundation.position', 'mm.fo
 						var parent = angular.element(dropdown[0].offsetParent);
 						var parentOffset = $position.offset(parent);
 						var dropdownWidth = dropdown.prop('offsetWidth');
-						var dropdownHeight = dropdown.prop('offsetWidth');
+						var dropdownHeight = dropdown.prop('offsetHeight');
 						var force_up = false;
 						var dynamic_pos = false;
 						var getPosition = function() {
@@ -503,7 +503,7 @@ angular.module('mm.foundation.dropdownToggle', ['mm.foundation.position', 'mm.fo
 							}
 							else {
 								css.left = $position.offset(element)
-									.left + 'px';
+									.left - parentOffset.left + 'px';
 							}
 							css.position = 'absolute';
 							css.width = '95%';
