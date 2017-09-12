@@ -483,7 +483,7 @@ angular.module('mm.foundation.dropdownToggle', ['mm.foundation.position', 'mm.fo
 								dropdown.removeClass('left')
 									.addClass('right');
 								if (left < 0) {
-									left = Math.min(event.pageX - 15, parentOffset.width - dropdownWidth);
+									left = Math.min(event.pageX - 15 - parentOffset.left, parentOffset.width - dropdownWidth);
 									dropdown.removeClass('right')
 										.addClass('left');
 								}
