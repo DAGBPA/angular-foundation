@@ -418,9 +418,9 @@ angular.module("mm.foundation.mediaQueries", [])
 
    <a dropdown-toggle="#dropdown-menu">My Dropdown Menu</a>
    <ul id="dropdown-menu" class="f-dropdown">
-     <li ng-repeat="choice in dropChoices">
-       <a ng-href="{{choice.href}}">{{choice.text}}</a>
-     </li>
+	 <li ng-repeat="choice in dropChoices">
+	   <a ng-href="{{choice.href}}">{{choice.text}}</a>
+	 </li>
    </ul>
  */
 angular.module('mm.foundation.dropdownToggle', ['mm.foundation.position', 'mm.foundation.mediaQueries'])
@@ -513,8 +513,23 @@ angular.module('mm.foundation.dropdownToggle', ['mm.foundation.position', 'mm.fo
 						dropdown.css(css);
 						element.addClass('expanded');
 
-						if (dropdown[0].getBoundingClientRect()
+						if (dynamic_pos && dropdown[0].getBoundingClientRect()
 							.top + dropdownHeight > document.body.offsetHeight) {
+							force_up = true;
+							dropdown.addClass('drop-top');
+							css = getPosition();
+							dropdown.css(css);
+						}
+						var dropdownContainer = dropdown.parent();
+						while (dropdownContainer.length && (dropdownContainer[0] != $document[0])) {
+							var pos = $window.getComputedStyle(dropdownContainer[0], null).getPropertyValue("position");
+							if (pos == "absolute") {
+								break;
+							}
+							dropdownContainer = dropdownContainer.parent();
+						}
+						if (!dynamic_pos && dropdown[0].getBoundingClientRect()
+							.top + dropdownHeight > dropdownContainer[0].offsetHeight) {
 							force_up = true;
 							dropdown.addClass('drop-top');
 							css = getPosition();
@@ -2376,19 +2391,19 @@ angular.module('mm.foundation.tabs', [])
 	 * @example
 	<example module="mm.foundation">
 	  <file name="index.html">
-	    <tabset>
-	      <tab heading="Tab 1"><b>First</b> Content!</tab>
-	      <tab heading="Tab 2"><i>Second</i> Content!</tab>
-	    </tabset>
-	    <hr />
-	    <tabset vertical="true">
-	      <tab heading="Vertical Tab 1"><b>First</b> Vertical Content!</tab>
-	      <tab heading="Vertical Tab 2"><i>Second</i> Vertical Content!</tab>
-	    </tabset>
-	    <tabset justified="true">
-	      <tab heading="Justified Tab 1"><b>First</b> Justified Content!</tab>
-	      <tab heading="Justified Tab 2"><i>Second</i> Justified Content!</tab>
-	    </tabset>
+		<tabset>
+		  <tab heading="Tab 1"><b>First</b> Content!</tab>
+		  <tab heading="Tab 2"><i>Second</i> Content!</tab>
+		</tabset>
+		<hr />
+		<tabset vertical="true">
+		  <tab heading="Vertical Tab 1"><b>First</b> Vertical Content!</tab>
+		  <tab heading="Vertical Tab 2"><i>Second</i> Vertical Content!</tab>
+		</tabset>
+		<tabset justified="true">
+		  <tab heading="Justified Tab 1"><b>First</b> Justified Content!</tab>
+		  <tab heading="Justified Tab 2"><i>Second</i> Justified Content!</tab>
+		</tabset>
 	  </file>
 	</example>
 	 */
@@ -2426,42 +2441,42 @@ angular.module('mm.foundation.tabs', [])
 	 * @example
 	<example module="mm.foundation">
 	  <file name="index.html">
-	    <div ng-controller="TabsDemoCtrl">
-	      <button class="button small" ng-click="items[0].active = true">
-	        Select item 1, using active binding
-	      </button>
-	      <button class="button small" ng-click="items[1].disabled = !items[1].disabled">
-	        Enable/disable item 2, using disabled binding
-	      </button>
-	      <br />
-	      <tabset>
-	        <tab heading="Tab 1">First Tab</tab>
-	        <tab select="alertMe()">
-	          <tab-heading><i class="fa fa-bell"></i> Alert me!</tab-heading>
-	          Second Tab, with alert callback and html heading!
-	        </tab>
-	        <tab ng-repeat="item in items"
-	          heading="{{item.title}}"
-	          disabled="item.disabled"
-	          active="item.active">
-	          {{item.content}}
-	        </tab>
-	      </tabset>
-	    </div>
+		<div ng-controller="TabsDemoCtrl">
+		  <button class="button small" ng-click="items[0].active = true">
+			Select item 1, using active binding
+		  </button>
+		  <button class="button small" ng-click="items[1].disabled = !items[1].disabled">
+			Enable/disable item 2, using disabled binding
+		  </button>
+		  <br />
+		  <tabset>
+			<tab heading="Tab 1">First Tab</tab>
+			<tab select="alertMe()">
+			  <tab-heading><i class="fa fa-bell"></i> Alert me!</tab-heading>
+			  Second Tab, with alert callback and html heading!
+			</tab>
+			<tab ng-repeat="item in items"
+			  heading="{{item.title}}"
+			  disabled="item.disabled"
+			  active="item.active">
+			  {{item.content}}
+			</tab>
+		  </tabset>
+		</div>
 	  </file>
 	  <file name="script.js">
-	    function TabsDemoCtrl($scope) {
-	      $scope.items = [
-	        { title:"Dynamic Title 1", content:"Dynamic Item 0" },
-	        { title:"Dynamic Title 2", content:"Dynamic Item 1", disabled: true }
-	      ];
+		function TabsDemoCtrl($scope) {
+		  $scope.items = [
+			{ title:"Dynamic Title 1", content:"Dynamic Item 0" },
+			{ title:"Dynamic Title 2", content:"Dynamic Item 1", disabled: true }
+		  ];
 
-	      $scope.alertMe = function() {
-	        setTimeout(function() {
-	          alert("You've selected the alert tab!");
-	        });
-	      };
-	    };
+		  $scope.alertMe = function() {
+			setTimeout(function() {
+			  alert("You've selected the alert tab!");
+			});
+		  };
+		};
 	  </file>
 	</example>
 	 */
@@ -2477,16 +2492,16 @@ angular.module('mm.foundation.tabs', [])
 	 * @example
 	<example module="mm.foundation">
 	  <file name="index.html">
-	    <tabset>
-	      <tab>
-	        <tab-heading><b>HTML</b> in my titles?!</tab-heading>
-	        And some content, too!
-	      </tab>
-	      <tab>
-	        <tab-heading><i class="fa fa-heart"></i> Icon heading?!?</tab-heading>
-	        That's right.
-	      </tab>
-	    </tabset>
+		<tabset>
+		  <tab>
+			<tab-heading><b>HTML</b> in my titles?!</tab-heading>
+			And some content, too!
+		  </tab>
+		  <tab>
+			<tab-heading><i class="fa fa-heart"></i> Icon heading?!?</tab-heading>
+			That's right.
+		  </tab>
+		</tabset>
 	  </file>
 	</example>
 	 */
